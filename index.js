@@ -26,6 +26,7 @@ let persons = [
     },
 ];
 
+app.use(express.static('dist'))
 app.use(express.json())
 app.use(cors())
 
