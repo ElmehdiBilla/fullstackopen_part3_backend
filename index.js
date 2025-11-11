@@ -105,14 +105,13 @@ app.post("/api/persons", (request, response) => {
 
 app.put("/api/persons/:id", (request, response) => {
     const body = request.body;
-    Person.findById(body.id)
+    Person.findById()
+    Person.findByIdAndUpdate(body.id, { number: body.number }, { new: true, runValidators: true })
     .then(returnedPerson => {
-        returnedPerson.number=body.number
-        returnedPerson.save()
         return response.json(returnedPerson);
     })
     .catch(err => {
-        return response.status(404).end();
+        return response.status(404).json(err.message);
     })
 });
 
