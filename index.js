@@ -82,15 +82,11 @@ app.post("/api/persons", (request, response) => {
     const body = request.body;
 
     if (!body.name) {
-        return response.status(400).json({
-            error: "name is missing",
-        });
+        return response.status(400).json("name is missing");
     }
 
     if (!body.number) {
-        return response.status(400).json({
-            error: "number is missing",
-        });
+        return response.status(400).json("number is missing");
     }
 
     const newPerson = new Person({
@@ -98,9 +94,13 @@ app.post("/api/persons", (request, response) => {
         number: body.number,
     });
 
-    newPerson.save().then((savedPerson) => {
+    newPerson.save()
+    .then((savedPerson) => {
         return response.json(savedPerson);
-    });
+    })
+    .catch(err => {
+        return response.status(400).json(err.message);
+    })
 });
 
 app.put("/api/persons/:id", (request, response) => {
